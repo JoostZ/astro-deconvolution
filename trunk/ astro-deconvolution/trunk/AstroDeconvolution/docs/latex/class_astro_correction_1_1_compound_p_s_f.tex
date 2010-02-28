@@ -1,0 +1,68 @@
+\section{AstroCorrection.CompoundPSF Class Reference}
+\label{class_astro_correction_1_1_compound_p_s_f}\index{AstroCorrection::CompoundPSF@{AstroCorrection::CompoundPSF}}
+
+
+Spatially Variant \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f}, with Karhunen-\/Loève decomposition.  
+Inheritance diagram for AstroCorrection.CompoundPSF::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{class_astro_correction_1_1_compound_p_s_f}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf CompoundPSF} ()
+\begin{DoxyCompactList}\small\item\em Constructor. \item\end{DoxyCompactList}\item 
+void {\bf Construct} (List$<$ {\bf PSF} $>$ psf, {\bf KLCoefficients} aPrototype)
+\begin{DoxyCompactList}\small\item\em Construct from a list of \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f}. \item\end{DoxyCompactList}\item 
+{\bf ImageF} {\bf Convolute} ({\bf ImageF} image)
+\begin{DoxyCompactList}\small\item\em Convolute the object with the \doxyref{ImageF}{p.}{class_astro_correction_1_1_image_f}. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Spatially Variant \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f}, with Karhunen-\/Loève decomposition. 
+
+Definition at line 12 of file CompoundPSF.cs.
+
+\subsection{Constructor \& Destructor Documentation}
+\index{AstroCorrection::CompoundPSF@{AstroCorrection::CompoundPSF}!CompoundPSF@{CompoundPSF}}
+\index{CompoundPSF@{CompoundPSF}!AstroCorrection::CompoundPSF@{AstroCorrection::CompoundPSF}}
+\subsubsection[{CompoundPSF}]{\setlength{\rightskip}{0pt plus 5cm}AstroCorrection.CompoundPSF.CompoundPSF ()}\label{class_astro_correction_1_1_compound_p_s_f_a3a0201ec80dbc336282681df0015daef}
+
+
+Constructor. 
+
+Definition at line 18 of file CompoundPSF.cs.
+
+\subsection{Member Function Documentation}
+\index{AstroCorrection::CompoundPSF@{AstroCorrection::CompoundPSF}!Construct@{Construct}}
+\index{Construct@{Construct}!AstroCorrection::CompoundPSF@{AstroCorrection::CompoundPSF}}
+\subsubsection[{Construct}]{\setlength{\rightskip}{0pt plus 5cm}void AstroCorrection.CompoundPSF.Construct (List$<$ {\bf PSF} $>$ {\em psf}, \/  {\bf KLCoefficients} {\em aPrototype})}\label{class_astro_correction_1_1_compound_p_s_f_a163da36b0461523ecfa01a335e9d3b68}
+
+
+Construct from a list of \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f}. 
+\begin{DoxyParams}{Parameters}
+\item[{\em psf}]The list to contruct the \doxyref{CompoundPSF}{p.}{class_astro_correction_1_1_compound_p_s_f} from \item[{\em aPrototype}]Prototype of the coefficients to use in decomposition \end{DoxyParams}
+
+
+Definition at line 30 of file CompoundPSF.cs.\index{AstroCorrection::CompoundPSF@{AstroCorrection::CompoundPSF}!Convolute@{Convolute}}
+\index{Convolute@{Convolute}!AstroCorrection::CompoundPSF@{AstroCorrection::CompoundPSF}}
+\subsubsection[{Convolute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ImageF} AstroCorrection.CompoundPSF.Convolute ({\bf ImageF} {\em image})}\label{class_astro_correction_1_1_compound_p_s_f_afff7554ee0a0d7ce659b87fd236ddff4}
+
+
+Convolute the object with the \doxyref{ImageF}{p.}{class_astro_correction_1_1_image_f}. 
+\begin{DoxyParams}{Parameters}
+\item[{\em image}]The image to convolute with\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the convlution 
+\end{DoxyReturn}
+
+
+Implements {\bf AstroCorrection.IConvolutable} \doxyref{}{p.}{interface_astro_correction_1_1_i_convolutable_a01a503ab4927505350bc1865d4b8dd35}.
+
+Definition at line 36 of file CompoundPSF.cs.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+C:/Users/Joost/Documents/Development/MyProjects/AstroCorrection/AstroCorrection/{\bf CompoundPSF.cs}\end{DoxyCompactItemize}

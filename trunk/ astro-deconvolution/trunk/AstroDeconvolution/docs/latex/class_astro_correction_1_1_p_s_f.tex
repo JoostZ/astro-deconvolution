@@ -1,0 +1,109 @@
+\section{AstroCorrection.PSF Class Reference}
+\label{class_astro_correction_1_1_p_s_f}\index{AstroCorrection::PSF@{AstroCorrection::PSF}}
+
+
+PixelData Spread Function.  
+Inheritance diagram for AstroCorrection.PSF::\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2cm]{class_astro_correction_1_1_p_s_f}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf Normalize} ()
+\item 
+{\bf ImageF} {\bf Convolute} ({\bf ImageF} image)
+\begin{DoxyCompactList}\small\item\em Convolute the object with the \doxyref{ImageF}{p.}{class_astro_correction_1_1_image_f}. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static unsafe {\bf PSF} {\bf FromBitmap} ({\bf ImageF} image, Point pos)
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Bitmap {\bf Bitmap}\hspace{0.3cm}{\ttfamily  [get]}
+\item 
+int {\bf Xmin}\hspace{0.3cm}{\ttfamily  [get, set]}
+\item 
+int {\bf Xmax}\hspace{0.3cm}{\ttfamily  [get, set]}
+\item 
+int {\bf Ymin}\hspace{0.3cm}{\ttfamily  [get, set]}
+\item 
+int {\bf Ymax}\hspace{0.3cm}{\ttfamily  [get, set]}
+\item 
+double {\bf this} [int x, int y]\hspace{0.3cm}{\ttfamily  [get, set]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+PixelData Spread Function. 
+
+Definition at line 14 of file PSF.cs.
+
+\subsection{Member Function Documentation}
+\index{AstroCorrection::PSF@{AstroCorrection::PSF}!Convolute@{Convolute}}
+\index{Convolute@{Convolute}!AstroCorrection::PSF@{AstroCorrection::PSF}}
+\subsubsection[{Convolute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ImageF} AstroCorrection.PSF.Convolute ({\bf ImageF} {\em image})}\label{class_astro_correction_1_1_p_s_f_a81fbd1fefd705253807d8edc6502fed0}
+
+
+Convolute the object with the \doxyref{ImageF}{p.}{class_astro_correction_1_1_image_f}. 
+\begin{DoxyParams}{Parameters}
+\item[{\em image}]The image to convolute with\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The result of the convlution 
+\end{DoxyReturn}
+
+
+Implements {\bf AstroCorrection.IConvolutable} \doxyref{}{p.}{interface_astro_correction_1_1_i_convolutable_a01a503ab4927505350bc1865d4b8dd35}.
+
+Definition at line 430 of file PSF.cs.\index{AstroCorrection::PSF@{AstroCorrection::PSF}!FromBitmap@{FromBitmap}}
+\index{FromBitmap@{FromBitmap}!AstroCorrection::PSF@{AstroCorrection::PSF}}
+\subsubsection[{FromBitmap}]{\setlength{\rightskip}{0pt plus 5cm}static unsafe {\bf PSF} AstroCorrection.PSF.FromBitmap ({\bf ImageF} {\em image}, \/  Point {\em pos})\hspace{0.3cm}{\ttfamily  [static]}}\label{class_astro_correction_1_1_p_s_f_a409f4a423853d4eb0b7acaabb946903f}
+
+
+Definition at line 350 of file PSF.cs.\index{AstroCorrection::PSF@{AstroCorrection::PSF}!Normalize@{Normalize}}
+\index{Normalize@{Normalize}!AstroCorrection::PSF@{AstroCorrection::PSF}}
+\subsubsection[{Normalize}]{\setlength{\rightskip}{0pt plus 5cm}void AstroCorrection.PSF.Normalize ()}\label{class_astro_correction_1_1_p_s_f_ae2cb282db33d35a4ea09c7a291a9af74}
+
+
+Definition at line 301 of file PSF.cs.
+
+\subsection{Property Documentation}
+\index{AstroCorrection::PSF@{AstroCorrection::PSF}!Bitmap@{Bitmap}}
+\index{Bitmap@{Bitmap}!AstroCorrection::PSF@{AstroCorrection::PSF}}
+\subsubsection[{Bitmap}]{\setlength{\rightskip}{0pt plus 5cm}Bitmap AstroCorrection.PSF.Bitmap\hspace{0.3cm}{\ttfamily  [get]}}\label{class_astro_correction_1_1_p_s_f_adfef23f1296ff43ec77c75aee9c719be}
+
+
+Definition at line 19 of file PSF.cs.\index{AstroCorrection::PSF@{AstroCorrection::PSF}!this@{this}}
+\index{this@{this}!AstroCorrection::PSF@{AstroCorrection::PSF}}
+\subsubsection[{this}]{\setlength{\rightskip}{0pt plus 5cm}double AstroCorrection.PSF.this[int x, int y]\hspace{0.3cm}{\ttfamily  [get, set]}}\label{class_astro_correction_1_1_p_s_f_a30257a589239e6769f7e1fe2326692ef}
+
+
+Definition at line 261 of file PSF.cs.\index{AstroCorrection::PSF@{AstroCorrection::PSF}!Xmax@{Xmax}}
+\index{Xmax@{Xmax}!AstroCorrection::PSF@{AstroCorrection::PSF}}
+\subsubsection[{Xmax}]{\setlength{\rightskip}{0pt plus 5cm}int AstroCorrection.PSF.Xmax\hspace{0.3cm}{\ttfamily  [get, set]}}\label{class_astro_correction_1_1_p_s_f_ae2ec7dbec5106d7f3e2e8929ab82af36}
+
+
+Definition at line 87 of file PSF.cs.\index{AstroCorrection::PSF@{AstroCorrection::PSF}!Xmin@{Xmin}}
+\index{Xmin@{Xmin}!AstroCorrection::PSF@{AstroCorrection::PSF}}
+\subsubsection[{Xmin}]{\setlength{\rightskip}{0pt plus 5cm}int AstroCorrection.PSF.Xmin\hspace{0.3cm}{\ttfamily  [get, set]}}\label{class_astro_correction_1_1_p_s_f_a9159673400b8146f197d1f44c33342f0}
+
+
+Definition at line 60 of file PSF.cs.\index{AstroCorrection::PSF@{AstroCorrection::PSF}!Ymax@{Ymax}}
+\index{Ymax@{Ymax}!AstroCorrection::PSF@{AstroCorrection::PSF}}
+\subsubsection[{Ymax}]{\setlength{\rightskip}{0pt plus 5cm}int AstroCorrection.PSF.Ymax\hspace{0.3cm}{\ttfamily  [get, set]}}\label{class_astro_correction_1_1_p_s_f_a4b5f3294e0c1eb96d948260465202f29}
+
+
+Definition at line 137 of file PSF.cs.\index{AstroCorrection::PSF@{AstroCorrection::PSF}!Ymin@{Ymin}}
+\index{Ymin@{Ymin}!AstroCorrection::PSF@{AstroCorrection::PSF}}
+\subsubsection[{Ymin}]{\setlength{\rightskip}{0pt plus 5cm}int AstroCorrection.PSF.Ymin\hspace{0.3cm}{\ttfamily  [get, set]}}\label{class_astro_correction_1_1_p_s_f_a7b7b3af871822c340e1b293ede491e3d}
+
+
+Definition at line 112 of file PSF.cs.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+C:/Users/Joost/Documents/Development/MyProjects/AstroCorrection/AstroCorrection/{\bf PSF.cs}\end{DoxyCompactItemize}

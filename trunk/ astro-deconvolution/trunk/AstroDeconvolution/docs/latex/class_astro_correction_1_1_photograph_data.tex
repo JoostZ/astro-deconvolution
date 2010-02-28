@@ -1,0 +1,135 @@
+\section{AstroCorrection.PhotographData Class Reference}
+\label{class_astro_correction_1_1_photograph_data}\index{AstroCorrection::PhotographData@{AstroCorrection::PhotographData}}
+
+
+Wrapper around photograph data.  
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf PixelData}
+\begin{DoxyCompactList}\small\item\em Data about a single pixel. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf PhotographData} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \item\end{DoxyCompactList}\item 
+{\bf PhotographData} (string aImage)
+\begin{DoxyCompactList}\small\item\em Constructor. \item\end{DoxyCompactList}\item 
+void {\bf AddPsf} ({\bf PsfWrapper} aPsf)
+\begin{DoxyCompactList}\small\item\em Add a \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f} to the data. \item\end{DoxyCompactList}\item 
+void {\bf Save} (string aFileName)
+\begin{DoxyCompactList}\small\item\em Save the data to a file. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static {\bf PhotographData} {\bf Load} (string aFileName)
+\begin{DoxyCompactList}\small\item\em Load the data from a file. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string {\bf Image}\hspace{0.3cm}{\ttfamily  [get, set]}
+\begin{DoxyCompactList}\small\item\em Path to the image being analyzed. \item\end{DoxyCompactList}\item 
+List$<$ {\bf PsfWrapper} $>$ {\bf PSFs}\hspace{0.3cm}{\ttfamily  [get, set]}
+\begin{DoxyCompactList}\small\item\em List of the PSFs in the image. \item\end{DoxyCompactList}\item 
+int {\bf NPsf}\hspace{0.3cm}{\ttfamily  [get]}
+\begin{DoxyCompactList}\small\item\em Number of \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f} associated with the image. \item\end{DoxyCompactList}\item 
+IEnumerable$<$ {\bf PixelData} $>$ {\bf AllPixels}\hspace{0.3cm}{\ttfamily  [get]}
+\begin{DoxyCompactList}\small\item\em Enumerator to generate the stack of values for all pixels in the \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f}. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Wrapper around photograph data. This includes the picture and the list of associated \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f} 
+
+Definition at line 17 of file PhotographData.cs.
+
+\subsection{Constructor \& Destructor Documentation}
+\index{AstroCorrection::PhotographData@{AstroCorrection::PhotographData}!PhotographData@{PhotographData}}
+\index{PhotographData@{PhotographData}!AstroCorrection::PhotographData@{AstroCorrection::PhotographData}}
+\subsubsection[{PhotographData}]{\setlength{\rightskip}{0pt plus 5cm}AstroCorrection.PhotographData.PhotographData ()}\label{class_astro_correction_1_1_photograph_data_a43d861a71e460c08cec3368adf10d4fa}
+
+
+Default Constructor. 
+
+Definition at line 55 of file PhotographData.cs.\index{AstroCorrection::PhotographData@{AstroCorrection::PhotographData}!PhotographData@{PhotographData}}
+\index{PhotographData@{PhotographData}!AstroCorrection::PhotographData@{AstroCorrection::PhotographData}}
+\subsubsection[{PhotographData}]{\setlength{\rightskip}{0pt plus 5cm}AstroCorrection.PhotographData.PhotographData (string {\em aImage})}\label{class_astro_correction_1_1_photograph_data_a90be205c9e8b128ba856b1e4b9fceb88}
+
+
+Constructor. Creates Photograph data for the specified image
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em aImage}]Path to the image \end{DoxyParams}
+
+
+Definition at line 68 of file PhotographData.cs.
+
+\subsection{Member Function Documentation}
+\index{AstroCorrection::PhotographData@{AstroCorrection::PhotographData}!AddPsf@{AddPsf}}
+\index{AddPsf@{AddPsf}!AstroCorrection::PhotographData@{AstroCorrection::PhotographData}}
+\subsubsection[{AddPsf}]{\setlength{\rightskip}{0pt plus 5cm}void AstroCorrection.PhotographData.AddPsf ({\bf PsfWrapper} {\em aPsf})}\label{class_astro_correction_1_1_photograph_data_a6c917d8ec846b4ea5fff34841e59b56e}
+
+
+Add a \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f} to the data. 
+\begin{DoxyParams}{Parameters}
+\item[{\em aPsf}]The \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f} to add \end{DoxyParams}
+
+
+Definition at line 80 of file PhotographData.cs.\index{AstroCorrection::PhotographData@{AstroCorrection::PhotographData}!Load@{Load}}
+\index{Load@{Load}!AstroCorrection::PhotographData@{AstroCorrection::PhotographData}}
+\subsubsection[{Load}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf PhotographData} AstroCorrection.PhotographData.Load (string {\em aFileName})\hspace{0.3cm}{\ttfamily  [static]}}\label{class_astro_correction_1_1_photograph_data_aebe490363ff626b1d95b4d59e2afacd7}
+
+
+Load the data from a file. 
+\begin{DoxyParams}{Parameters}
+\item[{\em aFileName}]The file to load from \end{DoxyParams}
+
+
+Definition at line 106 of file PhotographData.cs.\index{AstroCorrection::PhotographData@{AstroCorrection::PhotographData}!Save@{Save}}
+\index{Save@{Save}!AstroCorrection::PhotographData@{AstroCorrection::PhotographData}}
+\subsubsection[{Save}]{\setlength{\rightskip}{0pt plus 5cm}void AstroCorrection.PhotographData.Save (string {\em aFileName})}\label{class_astro_correction_1_1_photograph_data_a2933caeabc55dc8694e7bd6c1368fa85}
+
+
+Save the data to a file. 
+\begin{DoxyParams}{Parameters}
+\item[{\em aFileName}]Path of the file to save to \end{DoxyParams}
+
+
+Definition at line 91 of file PhotographData.cs.
+
+\subsection{Property Documentation}
+\index{AstroCorrection::PhotographData@{AstroCorrection::PhotographData}!AllPixels@{AllPixels}}
+\index{AllPixels@{AllPixels}!AstroCorrection::PhotographData@{AstroCorrection::PhotographData}}
+\subsubsection[{AllPixels}]{\setlength{\rightskip}{0pt plus 5cm}IEnumerable$<${\bf PixelData}$>$ AstroCorrection.PhotographData.AllPixels\hspace{0.3cm}{\ttfamily  [get]}}\label{class_astro_correction_1_1_photograph_data_aedd50678593bb498f0832bcb14762506}
+
+
+Enumerator to generate the stack of values for all pixels in the \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f}. The enumerator will return \doxyref{PixelData}{p.}{struct_astro_correction_1_1_photograph_data_1_1_pixel_data}
+
+For the X, Y pairs that is not defined in a \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f} the value will be 0 
+
+Definition at line 166 of file PhotographData.cs.\index{AstroCorrection::PhotographData@{AstroCorrection::PhotographData}!Image@{Image}}
+\index{Image@{Image}!AstroCorrection::PhotographData@{AstroCorrection::PhotographData}}
+\subsubsection[{Image}]{\setlength{\rightskip}{0pt plus 5cm}string AstroCorrection.PhotographData.Image\hspace{0.3cm}{\ttfamily  [get, set]}}\label{class_astro_correction_1_1_photograph_data_a0633ce2159e034925a0ae4d9d1047149}
+
+
+Path to the image being analyzed. 
+
+Definition at line 24 of file PhotographData.cs.\index{AstroCorrection::PhotographData@{AstroCorrection::PhotographData}!NPsf@{NPsf}}
+\index{NPsf@{NPsf}!AstroCorrection::PhotographData@{AstroCorrection::PhotographData}}
+\subsubsection[{NPsf}]{\setlength{\rightskip}{0pt plus 5cm}int AstroCorrection.PhotographData.NPsf\hspace{0.3cm}{\ttfamily  [get]}}\label{class_astro_correction_1_1_photograph_data_aac7d3973ab01d7129e728afec10e5c40}
+
+
+Number of \doxyref{PSF}{p.}{class_astro_correction_1_1_p_s_f} associated with the image. 
+
+Definition at line 44 of file PhotographData.cs.\index{AstroCorrection::PhotographData@{AstroCorrection::PhotographData}!PSFs@{PSFs}}
+\index{PSFs@{PSFs}!AstroCorrection::PhotographData@{AstroCorrection::PhotographData}}
+\subsubsection[{PSFs}]{\setlength{\rightskip}{0pt plus 5cm}List$<${\bf PsfWrapper}$>$ AstroCorrection.PhotographData.PSFs\hspace{0.3cm}{\ttfamily  [get, set]}}\label{class_astro_correction_1_1_photograph_data_ab60d3263a386e8a0e6247ec1f40f126d}
+
+
+List of the PSFs in the image. 
+
+Definition at line 34 of file PhotographData.cs.
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+C:/Users/Joost/Documents/Development/MyProjects/AstroCorrection/AstroCorrection/{\bf PhotographData.cs}\end{DoxyCompactItemize}

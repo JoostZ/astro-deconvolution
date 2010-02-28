@@ -1,0 +1,5 @@
+C:\Users\Joost\Documents\Development\MyProjects\tmp\trunk\AstroDeconvolution\AstroDeconvolution\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Joost\Documents\Development\MyProjects\tmp\trunk\AstroDeconvolution\AstroDeconvolution\obj\Debug\AstroDeconvolution.ImageScan.resources
+C:\Users\Joost\Documents\Development\MyProjects\tmp\trunk\AstroDeconvolution\AstroDeconvolution\obj\Debug\AstroDeconvolution.MainForm.resources
+C:\Users\Joost\Documents\Development\MyProjects\tmp\trunk\AstroDeconvolution\AstroDeconvolution\obj\Debug\AstroCorrection.Properties.Resources.resources
+C:\Users\Joost\Documents\Development\MyProjects\tmp\trunk\AstroDeconvolution\AstroDeconvolution\obj\Debug\AstroDeconvolution.csproj.GenerateResource.Cache
