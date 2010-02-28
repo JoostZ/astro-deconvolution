@@ -12,7 +12,7 @@ namespace AstroDeconvolution
      * Mostly used to serialize the PSF
      */
     [Serializable]
-    class PsfWrapper
+    class SpatiallyVariantPsf
     {
         /**
          * The position of the center of the PSF
@@ -41,7 +41,7 @@ namespace AstroDeconvolution
          * @param aPosition 
          * The position of the PSF in the underlying picture
          */
-        public PsfWrapper(PSF aPsf, Point aPosition)
+        public SpatiallyVariantPsf(PSF aPsf, Point aPosition)
         {
             Psf = aPsf;
             Position = aPosition;

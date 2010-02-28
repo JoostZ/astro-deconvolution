@@ -30,7 +30,7 @@ namespace AstroDeconvolution
          * @brief
          * List of the PSFs in the image
          */
-        public List<PsfWrapper> PSFs
+        public List<SpatiallyVariantPsf> PSFs
         {
             get;
             set;
@@ -54,7 +54,7 @@ namespace AstroDeconvolution
          */
         public PhotographData()
         {
-            PSFs = new List<PsfWrapper>();
+            PSFs = new List<SpatiallyVariantPsf>();
         }
 
         /**
@@ -68,7 +68,7 @@ namespace AstroDeconvolution
         public PhotographData(string aImage)
         {
             Image = aImage;
-            PSFs = new List<PsfWrapper>();
+            PSFs = new List<SpatiallyVariantPsf>();
         }
 
         /**
@@ -77,7 +77,7 @@ namespace AstroDeconvolution
          * 
          * @param aPsf The PSF to add
          */
-        public void AddPsf(PsfWrapper aPsf)
+        public void AddPsf(SpatiallyVariantPsf aPsf)
         {
             PSFs.Add(aPsf);
         }

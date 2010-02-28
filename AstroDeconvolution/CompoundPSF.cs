@@ -27,7 +27,7 @@ namespace AstroDeconvolution
          * @param aPrototype 
          * Prototype of the coefficients to use in decomposition
          */
-        public void Construct(List<PSF> psf, KLCoefficients aPrototype)
+        public void Construct(List<SpatiallyVariantPsf> psf, KLCoefficients aPrototype)
         {
         }
 
