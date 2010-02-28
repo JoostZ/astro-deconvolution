@@ -18,7 +18,7 @@ namespace AstroDeconvolution
         /**
          * Currently selected PSF
          */
-        public PsfWrapper PSF
+        public SpatiallyVariantPsf PSF
         {
             get;
             private set;
@@ -43,14 +43,14 @@ namespace AstroDeconvolution
 
         }
 
-        List<PsfWrapper> iPsfList = new List<PsfWrapper>();
+        List<SpatiallyVariantPsf> iPsfList = new List<SpatiallyVariantPsf>();
 
         /**
          * Adda PSF to the images being shown
          * 
          * @param aPsf The PSF to add
          */
-        public void Add(PsfWrapper aPsf)
+        public void Add(SpatiallyVariantPsf aPsf)
         {
             iPsfList.Add(aPsf);
             Image psfImage = aPsf.Psf.Bitmap;
@@ -62,7 +62,7 @@ namespace AstroDeconvolution
             picBox.Image = psfImage;
         }
 
-        public PsfWrapper GetPsf(int idx)
+        public SpatiallyVariantPsf GetPsf(int idx)
         {
             return iPsfList[idx];
         }

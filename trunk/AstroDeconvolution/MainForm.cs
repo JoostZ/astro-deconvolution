@@ -64,7 +64,7 @@ namespace AstroDeconvolution
                 //pos.X -= panelImage.AutoScrollPosition.X;
                 //pos.Y -= panelImage.AutoScrollPosition.Y;
                 PSF thePsf = PSF.FromBitmap(iImageF, pos);
-                PsfWrapper wrapper = new PsfWrapper(thePsf, pos);
+                SpatiallyVariantPsf wrapper = new SpatiallyVariantPsf(thePsf, pos);
                 this.imageScan1.Add(wrapper);
                 photograph.AddPsf(wrapper);
                 picPreviewPsf.Image = thePsf.Bitmap;
@@ -109,7 +109,7 @@ namespace AstroDeconvolution
                 this.pictureMain.Size = iImage.Size;
                 pictureMain.Image = iImage;
 
-                foreach (PsfWrapper thePsf in photograph.PSFs)
+                foreach (SpatiallyVariantPsf thePsf in photograph.PSFs)
                 {
                     this.imageScan1.Add(thePsf);
                 }
