@@ -7,9 +7,11 @@ using System.Drawing;
 namespace AstroDeconvolution
 {
     /**
-     * Wrapper around Point Spread Functions
+     * @brief
+     * Spatially-variant Point Spread Functions
      * 
-     * Mostly used to serialize the PSF
+     * Besides the actual PSF it contains also the position in an image
+     * where this PSF is valid.
      */
     [Serializable]
     class SpatiallyVariantPsf
