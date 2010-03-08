@@ -9,7 +9,7 @@ namespace AstroDeconvolution
      * @brief 
      * Interface that allows Convolution into an ImageF
      */
-    interface IConvolutable
+    public interface IConvolutable
     {
         /**
          * @brief
@@ -20,5 +20,7 @@ namespace AstroDeconvolution
          * @return The result of the convlution
          */
         ImageF Convolute(ImageF image);
+
+        ImageF ConvoluteTranspose(ImageF image);
     }
 }

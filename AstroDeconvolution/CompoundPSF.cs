@@ -38,6 +38,11 @@ namespace AstroDeconvolution
             throw new NotImplementedException();
         }
 
+        public ImageF ConvoluteTranspose(ImageF image)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

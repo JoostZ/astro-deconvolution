@@ -14,7 +14,7 @@ namespace AstroDeconvolution
      * where this PSF is valid.
      */
     [Serializable]
-    class SpatiallyVariantPsf
+    public class SpatiallyVariantPsf
     {
         /**
          * The position of the center of the PSF

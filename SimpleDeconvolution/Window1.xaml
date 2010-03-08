@@ -1,0 +1,21 @@
+﻿<Window x:Class="WpfApplication.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Window1" Height="315" Width="391">
+    <DockPanel>
+        <Menu Height="22" Name="menu1" DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Load..." Click="MenuItem_Click" />
+            </MenuItem>
+        </Menu>
+        <StackPanel Height="Auto" Name="stackPanel1" DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
+            <Button Height="23" Name="btnLoad" Width="75" Margin="5">Load Image</Button>
+            <Button Height="23" Name="btnIterate" Width="75" Margin="5">Iterate</Button>
+        </StackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Viewbox Name="viewbox1">
+                <Image Name="theImage"></Image>
+            </Viewbox>
+        </ScrollViewer>
+    </DockPanel> 
+</Window>
