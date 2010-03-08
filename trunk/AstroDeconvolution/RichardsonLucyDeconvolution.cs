@@ -67,8 +67,85 @@ namespace AstroDeconvolution
     /**
      * @brief
      * Richardson-Lucy deconvolution
+     * 
+     * As described on \ref index, we assume that the actulal image  \f$I\f$is a 
+     * convolution of the true star field \f$S\f$ with a Point Spread Function
+     * \f$P\f$. We want to de-convolve the measured image with the known %PSF to get a
+     * better quality image.
+     * 
+     * Richardson-Lucy de-convolution solves this by an iterative procedure. From an estimate
+     * \f$S_n\f$ of the star image we calculate an estimate of the image \f$I_n\f$ by convolution:
+     * \f[
+     * I_n = S_n \star P
+     * \f]
+     * A correction image is then estimated by convolving a ratio of the true
+     * to estimated image by the transpose of the %PSF,
+     * \f[
+     * C_n = \left( I \over I_n \right ) \star P^T
+     * \f]
+     * This image is then used to create a new estimate of the star image,
+     * \f[
+     * S_{n+1} = C_n S_n
+     * \f]
+     * This is then iterated until the \f$I_n\f$ is close to \f$I\f$.
      */
     public class RichardsonLucyDeconvolution
     {
+        /**
+         * @brief
+         * Constructor
+         * 
+         * @param image
+         * The image 
+         * @param psf
+         * The %PSF to de-convolve
+         * 
+         * Note that it is not important to know about the %PSF, just that
+         * it is an object that can convolve itself withan image
+         */
+        public RichardsonLucyDeconvolution(ImageF image, IConvolutable psf)
+        {
+            Image = image;
+            Psf = psf;
+        }
+
+        private ImageF Image
+        {
+            get;
+            set;
+        }
+
+        private IConvolutable Psf
+        {
+            get;
+            set;
+        }
+
+        /**
+         * @brief
+         * Get the current iteration of the image
+         * 
+         * @note The set operation is private
+         */
+        public ImageF Sn
+        {
+            get;
+            private set;
+        }
+
+        /**
+         * @brief
+         * Perform a single iteration
+         * 
+         * @return The new estimate of the image
+         */
+        public ImageF Iterate()
+        {
+            ImageF In = Psf.Convolute(Sn);
+            ImageF Cn = Psf.Convolute(Image / In);
+            Sn *= Cn;
+            return Sn;
+        }
+
     }
 }

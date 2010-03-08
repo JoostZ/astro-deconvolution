@@ -81,7 +81,7 @@ namespace AstroDeconvolution
         {
             imageData = new double[width, height];
         }
-
+        #region creators
         /**
          * @brief
          * Create an ImageF from a two-dimensional array
@@ -136,6 +136,29 @@ namespace AstroDeconvolution
 
         /**
          * @brief
+         * Create an image with a constant pixel value
+         * 
+         * @param width Width of the image
+         * @param height Height of the omage
+         * @param value Value to set each pixel to
+         */
+        public static ImageF ConstantImage(int width, int height, double value)
+        {
+            ImageF result = new ImageF(width, height);
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    result.imageData[i, j] = value;
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        #region Arithmetic Operators
+        /**
+         * @brief
          * Add an ImageF pixelwise to this object
          * 
          * @param rhs
@@ -172,6 +195,85 @@ namespace AstroDeconvolution
         {
             return lhs.Add(rhs);
         }
+
+        /**
+         * @brief
+         * Divide this object by an ImageF pixelwise
+         * 
+         * @param rhs
+         * ImageF object to divide by
+         * 
+         * @return
+         * The result of the division
+         * 
+         * @note Even ifg a pixel in rhs is 0, the division will not fail
+         */
+        public ImageF Divide(ImageF rhs)
+        {
+            double  Limit = 0.0000001;
+            ImageF result = new ImageF(Width, Height);
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height; j++) {
+                    result.imageData[i, j] = this[i, j] / Math.Max(rhs[i, j], Limit);
+                }
+            }
+            return result;
+        }
+        /**
+         * @brief
+         * Divide two ImageF objects pixel by pixel
+         * 
+         * @param lhs First of the ImageF objects
+         * @param rhs Second of the ImageF objects
+         * 
+         * @return
+         * The result of the division
+         */
+        public static ImageF operator /(ImageF lhs, ImageF rhs)
+        {
+            return lhs.Divide(rhs);
+        }
+
+        /**
+         * @brief
+         * Multiply this object with an ImageF pixelwise
+         * 
+         * @param rhs
+         * ImageF object to multiply with
+         * 
+         * @return
+         * The result of the multiplication
+         */
+        public ImageF Multiply(ImageF rhs)
+        {
+            double Limit = 0.0000001;
+            ImageF result = new ImageF(Width, Height);
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height; j++)
+                {
+                    result.imageData[i, j] = this[i, j] / Math.Max(rhs[i, j], Limit);
+                }
+            }
+            return result;
+        }
+        /**
+         * @brief
+         * Multiply two ImageF objects pixel by pixel
+         * 
+         * @param lhs First of the ImageF objects
+         * @param rhs Second of the ImageF objects
+         * 
+         * @return
+         * The result of the multiplication
+         */
+        public static ImageF operator *(ImageF lhs, ImageF rhs)
+        {
+            return lhs.Multiply(rhs);
+        }
+        #endregion
+
 
         /**
          * @brief
