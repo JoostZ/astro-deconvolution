@@ -5,16 +5,24 @@
     <DockPanel>
         <Menu Height="22" Name="menu1" DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Load..." Click="MenuItem_Click" />
+                <MenuItem Header="_Load..." Command="ApplicationCommands.Open" />
+            </MenuItem>
+            <MenuItem Header="_Zoom">
+                <MenuItem Header="25%" Command="NavigationCommands.Zoom" CommandParameter="0.25"/>
+                <MenuItem Header="50%" Command="NavigationCommands.Zoom" CommandParameter="0.50" />
+                <MenuItem Header="100%" Command="NavigationCommands.Zoom" CommandParameter="1.0" />
             </MenuItem>
         </Menu>
         <StackPanel Height="Auto" Name="stackPanel1" DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
-            <Button Height="23" Name="btnLoad" Width="75" Margin="5">Load Image</Button>
+            <Button Height="23" Name="btnLoad" Width="75" Margin="5" Command="ApplicationCommands.Open">Load Image</Button>
             <Button Height="23" Name="btnIterate" Width="75" Margin="5">Iterate</Button>
         </StackPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Viewbox Name="viewbox1">
-                <Image Name="theImage"></Image>
+            <Viewbox Name="viewBox" Stretch="None">
+                <Viewbox.LayoutTransform>
+                    <ScaleTransform ScaleX="{Binding Path=Zoom,Mode=OneWay}"  ScaleY="{Binding Path=Zoom,Mode=OneWay}"/>
+                </Viewbox.LayoutTransform>
+                <Image Name="theImage"/>
             </Viewbox>
         </ScrollViewer>
     </DockPanel> 
