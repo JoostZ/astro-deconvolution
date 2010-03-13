@@ -425,6 +425,40 @@ namespace AstroDeconvolution
             return thePsf;
         }
 
+        public Color[,] ToRawImage()
+        {
+            // Find the maximum
+            double maxValue = 0;
+            for (int y = Ymin; y <= Ymax; y++)
+            {
+                List<double> row = iData[y - Ymin];
+                for (int x = Xmin; x <= Xmax; x++)
+                {
+                    if (row[x - Xmin] > maxValue)
+                    {
+                        maxValue = row[x - Xmin];
+                    }
+                }
+            }
+            double scale = 255 / maxValue;
+
+            Color[,] result = new Color[Xmax - Xmin + 1, Ymax - Ymin + 1];
+
+            _bitmap = new Bitmap(Xmax - Xmin + 1, Ymax - Ymin + 1, PixelFormat.Format24bppRgb);
+            for (int y = Ymin; y <= Ymax; y++)
+            {
+                List<double> row = iData[y - Ymin];
+                for (int x = Xmin; x <= Xmax; x++)
+                {
+                    int value = (int)(row[x - Xmin] * scale + 0.5);
+                    result[x - Xmin, y - Ymin] = Color.FromArgb(value, value, value);
+                }
+
+            }
+
+            return result;
+        }
+
         #region IConvolutable Members
 
         public ImageF Convolute(ImageF image)
