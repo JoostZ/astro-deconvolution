@@ -16,14 +16,16 @@
         <StackPanel Height="Auto" Name="stackPanel1" DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
             <Button Height="23" Name="btnLoad" Width="75" Margin="5" Command="ApplicationCommands.Open">Load Image</Button>
             <Button Height="23" Name="btnIterate" Width="75" Margin="5">Iterate</Button>
+            <Image Height="23" Name="image1"/>
         </StackPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Viewbox Name="viewBox" Stretch="None">
+            <Viewbox Name="viewBox" >
                 <Viewbox.LayoutTransform>
                     <ScaleTransform ScaleX="{Binding Path=Zoom,Mode=OneWay}"  ScaleY="{Binding Path=Zoom,Mode=OneWay}"/>
                 </Viewbox.LayoutTransform>
+                
                 <Image Name="theImage"/>
-            </Viewbox>
+                </Viewbox>
         </ScrollViewer>
     </DockPanel> 
 </Window>

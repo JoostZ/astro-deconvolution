@@ -12,6 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Globalization;
+
+using AstroDeconvolution;
+
 
 using Microsoft.Win32;
 
@@ -25,7 +29,8 @@ namespace WpfApplication
         public Window1()
         {
             InitializeComponent();
-            this.Zoom = 0.1;
+
+            this.Zoom = 1.0;
             viewBox.DataContext = this;
 
             CommandBinding cb = new CommandBinding(ApplicationCommands.Open);
@@ -40,7 +45,7 @@ namespace WpfApplication
         void cb1_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             string level = e.Parameter as string;
-            double value = Convert.ToDouble(level);
+            double value = Convert.ToDouble(level, new CultureInfo("en-us"));
             Zoom = value;
         }
 
@@ -50,10 +55,40 @@ namespace WpfApplication
 
             if (dlg.ShowDialog() == true)
             {
-                theImage.Source = new BitmapImage(new Uri(dlg.FileName));
+                ImageF image = ImageF.FromFile(dlg.FileName);
+
+                theImage.Source = ToBitmap(image);
                 viewBox.Width = theImage.Width;
                 viewBox.Height = theImage.Height;
             }
+        }
+
+        static BitmapSource ToBitmap(ImageF image)
+        {
+            System.Drawing.Color[,] color = image.ToRawImage();
+            int width = color.GetLength(0);
+            int height = color.GetLength(1);
+            PixelFormat pf = PixelFormats.Rgb24;
+            int rawStride = width * ((pf.BitsPerPixel + 7) / 8);
+            byte[] rawImage = new byte[rawStride * height];
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    setpixel(ref rawImage, x, y, rawStride, color[x, y]);
+                }
+            }
+
+            BitmapSource result = BitmapSource.Create(width, height, 96, 96, pf, null, rawImage, rawStride);
+            return result;
+        }
+
+        private static void setpixel(ref byte[] bits,
+                    int x, int y, int stride, System.Drawing.Color c)
+        {
+            bits[x * 3 + y * stride] = c.R;
+            bits[x * 3 + y * stride + 1] = c.G;
+            bits[x * 3 + y * stride + 2] = c.B;
         }
 
         private double _zoom;
@@ -84,16 +119,6 @@ namespace WpfApplication
                 viewBox.Width = theImage.Width;
                 viewBox.Height = theImage.Height;
             }
-        }
-
-        private void MenuItem_Zoom25(object sender, RoutedEventArgs e)
-        {
-            Zoom = 0.25;
-        }
-
-        private void MenuItem_Zoom50(object sender, RoutedEventArgs e)
-        {
-            Zoom = 0.5;
         }
 
         #region INotifyPropertyChanged Members

@@ -96,6 +96,11 @@ namespace AstroDeconvolution
             return result;
         }
 
+        static public ImageF FromFile(string filename)
+        {
+            Bitmap bmp = new Bitmap(filename);
+            return FromBitmap(bmp);
+        }
         /**
          * @brief
          * Creat an ImageF from a Bitmap
@@ -274,7 +279,22 @@ namespace AstroDeconvolution
         }
         #endregion
 
+        public Color[,] ToRawImage()
+        {
+            Color[,] result = new Color[Width, Height];
+           
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    double value = this.imageData[x, y];
+                    int color = (int)(value * 255);
+                    result[x, y] = Color.FromArgb(color, color, color);
+                }
+            }
 
+            return result;
+        }
         /**
          * @brief
          * Convolute the %PSF into this ImageF
