@@ -11,6 +11,8 @@
                 <MenuItem Header="25%" Command="NavigationCommands.Zoom" CommandParameter="0.25"/>
                 <MenuItem Header="50%" Command="NavigationCommands.Zoom" CommandParameter="0.50" />
                 <MenuItem Header="100%" Command="NavigationCommands.Zoom" CommandParameter="1.0" />
+                <MenuItem Header="150%" Command="NavigationCommands.Zoom" CommandParameter="1.5" />
+                <MenuItem Header="200%" Command="NavigationCommands.Zoom" CommandParameter="2.0" />
             </MenuItem>
         </Menu>
         <StackPanel Height="Auto" Name="stackPanel1" DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
