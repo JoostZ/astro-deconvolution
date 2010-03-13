@@ -42,6 +42,18 @@ namespace WpfApplication
             this.CommandBindings.Add(cb1);
         }
 
+        ImageF Picture
+        {
+            get;
+            set;
+        }
+
+        PSF Psf
+        {
+            get;
+            set;
+        }
+
         void cb1_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             string level = e.Parameter as string;
@@ -55,9 +67,9 @@ namespace WpfApplication
 
             if (dlg.ShowDialog() == true)
             {
-                ImageF image = ImageF.FromFile(dlg.FileName);
+                Picture = ImageF.FromFile(dlg.FileName);
 
-                theImage.Source = ToBitmap(image);
+                theImage.Source = ToBitmap(Picture);
                 viewBox.Width = theImage.Width;
                 viewBox.Height = theImage.Height;
             }
@@ -66,6 +78,11 @@ namespace WpfApplication
         static BitmapSource ToBitmap(ImageF image)
         {
             System.Drawing.Color[,] color = image.ToRawImage();
+            return ToBitmap(color);
+        }
+
+        private static BitmapSource ToBitmap(System.Drawing.Color[,] color)
+        {
             int width = color.GetLength(0);
             int height = color.GetLength(1);
             PixelFormat pf = PixelFormats.Rgb24;
@@ -126,5 +143,13 @@ namespace WpfApplication
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+
+        private void viewBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Point pos = e.GetPosition(theImage);
+            Psf = PSF.FromBitmap(Picture, new System.Drawing.Point((int)pos.X, (int)pos.Y));
+            imgPsfPreview.Source = ToBitmap(Psf.ToRawImage());
+        }
     }
 }
