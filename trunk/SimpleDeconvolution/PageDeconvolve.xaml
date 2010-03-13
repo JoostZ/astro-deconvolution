@@ -13,24 +13,20 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <Viewbox Name="viewBox">
+                <Viewbox Name="viewBase" Grid.Column="0" Margin="5">
                     <Viewbox.LayoutTransform>
                         <ScaleTransform ScaleX="{Binding Path=Zoom,Mode=OneWay}"  ScaleY="{Binding Path=Zoom,Mode=OneWay}"/>
                     </Viewbox.LayoutTransform>
 
-                    <Image Name="theImage" />
+                    <Image Name="theBase" />
                 </Viewbox>
-            </ScrollViewer>
-            <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
-                <Viewbox Name="viewBoxResult">
+                <Viewbox Name="viewBoxResult" Grid.Column="1" Margin="5">
                     <Viewbox.LayoutTransform>
                         <ScaleTransform ScaleX="{Binding Path=Zoom,Mode=OneWay}"  ScaleY="{Binding Path=Zoom,Mode=OneWay}"/>
                     </Viewbox.LayoutTransform>
 
                     <Image Name="theResult" />
                 </Viewbox>
-            </ScrollViewer>
         </Grid>
         
     </DockPanel>

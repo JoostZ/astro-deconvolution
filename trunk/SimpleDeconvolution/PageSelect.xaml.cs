@@ -42,7 +42,7 @@ namespace SimpleDeconvolution
             this.CommandBindings.Add(cb1);
         }
 
-        ImageF Picture
+        ImageFWrapper Picture
         {
             get;
             set;
@@ -67,9 +67,9 @@ namespace SimpleDeconvolution
 
             if (dlg.ShowDialog() == true)
             {
-                Picture = ImageF.FromFile(dlg.FileName);
+                Picture = new ImageFWrapper(ImageF.FromFile(dlg.FileName));
 
-                theImage.Source = ToBitmap(Picture);
+                theImage.Source = Picture.Bitmap;
                 viewBox.Width = theImage.Width;
                 viewBox.Height = theImage.Height;
             }
@@ -136,13 +136,14 @@ namespace SimpleDeconvolution
         private void viewBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Point pos = e.GetPosition(theImage);
-            Psf = PSF.FromBitmap(Picture, new System.Drawing.Point((int)pos.X, (int)pos.Y));
+            Psf = PSF.FromBitmap(Picture.Image, new System.Drawing.Point((int)pos.X, (int)pos.Y));
             imgPsfPreview.Source = ToBitmap(Psf.ToRawImage());
         }
 
         private void btnDeconvolve_Click(object sender, RoutedEventArgs e)
         {
             PageDeconvolve page = new PageDeconvolve();
+            page.BaseImage = Picture;
             this.NavigationService.Navigate(page);
         }
 
