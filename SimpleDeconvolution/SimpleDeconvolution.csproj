@@ -106,6 +106,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageFWrapper.cs" />
     <Compile Include="PageDeconvolve.xaml.cs">
       <DependentUpon>PageDeconvolve.xaml</DependentUpon>
     </Compile>

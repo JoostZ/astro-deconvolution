@@ -24,10 +24,13 @@ namespace SimpleDeconvolution
         {
             InitializeComponent();
 
+            viewBase.DataContext = this;
+            viewBoxResult.DataContext = this;
+
         }
 
-        private ImageF baseImage;
-        public ImageF BaseImage
+        private ImageFWrapper baseImage;
+        public ImageFWrapper BaseImage
         {
             get
             {
@@ -36,12 +39,14 @@ namespace SimpleDeconvolution
             set
             {
                 baseImage = value;
+                theBase.Source = BaseImage.Bitmap;
 
-                ResultImage = ImageF.ConstantImage(baseImage.Width, baseImage.Height, 0.5);
+                ResultImage = new ImageFWrapper(ImageF.ConstantImage(baseImage.Image.Width, baseImage.Image.Height, 0.5));
+                theResult.Source = ResultImage.Bitmap;
             }
         }
 
-        public ImageF ResultImage
+        public ImageFWrapper ResultImage
         {
             get;
             set;
