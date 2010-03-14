@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Exocortex.DSP;
 
 namespace AstroDeconvolution
 {
@@ -459,17 +460,190 @@ namespace AstroDeconvolution
             return result;
         }
 
+        private Size FftSize
+        {
+            get;
+            set;
+        }
+
+        Complex[] FftPsf
+        {
+            get;
+            set;
+        }
+
+        Complex[] GetPsfFft(ImageF image)
+        {
+            double[,] grid = new double[FftSize.Width, FftSize.Height];
+            Complex[] data = new Complex[FftSize.Width * FftSize.Height];
+
+            for (int y = Ymin; y <= Ymax; y++)
+            {
+                int yOffset = y < 0 ? FftSize.Height : 0;
+                for (int x = Xmin; x <= Xmax; x++)
+                {
+                    int xOffset = x < 0 ? FftSize.Width : 0;
+                    grid[xOffset + x, yOffset + y] = this[x, y];
+                }
+            }
+
+            int idx = 0;
+            for (int y = 0; y < FftSize.Height; y++)
+            {
+                for (int x = 0; x < FftSize.Width; x++)
+                {
+                    data[idx++].Re = (((x + y) & 0x1) != 0) ? -grid[x, y] : grid[x, y];
+                }
+            }
+
+            Fourier.FFT2(data, FftSize.Width, FftSize.Height, FourierDirection.Forward);
+
+
+            double scale = 1f / (float)Math.Sqrt(FftSize.Width * FftSize.Height);
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] *= scale;
+            }
+            return data;
+        }
+
+        Complex[] FftPsfTranspose
+        {
+            get;
+            set;
+        }
+
+        Complex[] GetPsfTransposeFft(ImageF image)
+        {
+            double[,] grid = new double[FftSize.Width, FftSize.Height];
+            Complex[] data = new Complex[FftSize.Width * FftSize.Height];
+
+            for (int y = Ymin; y <= Ymax; y++)
+            {
+                int yOffset = y < 0 ? FftSize.Width : 0;
+                for (int x = Xmin; x <= Xmax; x++)
+                {
+                    int xOffset = x < 0 ? FftSize.Height : 0;
+                    grid[yOffset + y, xOffset + x] = this[x, y];
+                }
+            }
+
+            int idx = 0;
+            for (int y = 0; y < FftSize.Height; y++)
+            {
+                for (int x = 0; x < FftSize.Width; x++)
+                {
+                    data[idx++].Re = (((x + y) & 0x1) != 0) ? -grid[x, y] : grid[x, y];
+                }
+            }
+
+            Fourier.FFT2(data, FftSize.Width, FftSize.Height, FourierDirection.Forward);
+
+
+            double scale = 1f / (float)Math.Sqrt(FftSize.Width * FftSize.Height);
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] *= scale;
+            }
+            return data;
+        }
+
+        Complex[] FftImage(ImageF image)
+        {
+            Complex[] data = new Complex[FftSize.Width * FftSize.Height];
+
+            for (int y = 0; y < image.Height; y++)
+            {
+                int rowOffset = y * FftSize.Width;
+                for (int x = 0; x < image.Width; x++)
+                {
+                    data[rowOffset + x].Re = image[x, y];
+                    if (((x + 1) & 0x1) != 0)
+                    {
+                        data[rowOffset + x] *= 1;
+                    }
+                }
+            }
+
+            Fourier.FFT2(data, FftSize.Width, FftSize.Height, FourierDirection.Forward);
+
+            double scale = 1f / (float)Math.Sqrt(FftSize.Width * FftSize.Height);
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] *= scale;
+            }
+
+            return data;
+        }
         #region IConvolutable Members
 
         public ImageF Convolute(ImageF image)
         {
-            throw new NotImplementedException();
+            Size oldSize = FftSize;
+            FftSize = new Size(
+                (int)Math.Pow(2, Math.Ceiling(Math.Log(image.Width, 2))),
+                (int)Math.Pow(2, Math.Ceiling(Math.Log(image.Height, 2))));
+
+            if (FftPsf == null || FftSize != oldSize)
+            {
+                FftPsf = GetPsfFft(image);
+            }
+
+            return DoConvolute(image, FftPsf);
+        }
+
+        private ImageF DoConvolute(ImageF image, Complex[] psf)
+        {
+            Complex[] imageFft = FftImage(image);
+
+            Complex[] data = new Complex[FftSize.Width * FftSize.Height];
+
+            for (int idx = 0; idx < data.Length; idx++)
+            {
+                data[idx] = imageFft[idx] * psf[idx];
+            }
+
+            Fourier.FFT2(data, FftSize.Width, FftSize.Height, FourierDirection.Backward);
+
+            Double[,] result = new Double[image.Width, image.Height];
+
+            double scale = 1f / (float)Math.Sqrt(FftSize.Width * FftSize.Height);
+            int offset = 0;
+
+            for (int y = 0; y < image.Height; y++)
+            {
+                offset = y * FftSize.Width;
+                for (int x = 0; x < image.Width; x++)
+                {
+                    if (((x + y) & 0x1) != 0)
+                    {
+                        result[x, y] = -1 * scale * data[offset + x].Re;
+                    }
+                    else
+                    {
+                        result[x, y] = scale * data[offset + x].Re;
+                    }
+                    offset++;
+                }
+            }
+
+            return ImageF.FromArray(result);
         }
 
 
         public ImageF ConvoluteTranspose(ImageF image)
         {
-            throw new NotImplementedException();
+            Size oldSize = FftSize;
+            FftSize = new Size(
+                (int)Math.Pow(2, Math.Ceiling(Math.Log(image.Width, 2))),
+                (int)Math.Pow(2, Math.Ceiling(Math.Log(image.Height, 2))));
+
+            if (FftPsfTranspose == null || FftSize != oldSize)
+            {
+                FftPsfTranspose = GetPsfTransposeFft(image);
+            }
+
+            return DoConvolute(image, FftPsfTranspose);
         }
 
         #endregion
