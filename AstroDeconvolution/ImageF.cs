@@ -172,14 +172,15 @@ namespace AstroDeconvolution
                 }
             }
 
-            Random rand = new Random();
-            for (int i = 0; i < nPoints; i++)
-            {
-                int x = rand.Next(width);
-                int y = rand.Next(height);
+            result.imageData[width / 2, height / 2] = 1.0;
+            //Random rand = new Random();
+            //for (int i = 0; i < nPoints; i++)
+            //{
+            //    int x = rand.Next(width);
+            //    int y = rand.Next(height);
 
-                result.imageData[x, y] = 1.0;
-            }
+            //    result.imageData[x, y] = 1.0;
+            //}
             return result;
         }
         #endregion
@@ -275,13 +276,12 @@ namespace AstroDeconvolution
          */
         public ImageF Multiply(ImageF rhs)
         {
-            double Limit = 0.0000001;
             ImageF result = new ImageF(Width, Height);
             for (int i = 0; i < Width; i++)
             {
                 for (int j = 0; j < Height; j++)
                 {
-                    result.imageData[i, j] = this[i, j] / Math.Max(rhs[i, j], Limit);
+                    result.imageData[i, j] = this[i, j] * rhs[i, j];
                 }
             }
             return result;

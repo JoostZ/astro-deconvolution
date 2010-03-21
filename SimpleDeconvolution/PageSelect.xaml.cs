@@ -41,14 +41,14 @@ namespace SimpleDeconvolution
             cb1.Executed += new ExecutedRoutedEventHandler(cb1_Executed);
             this.CommandBindings.Add(cb1);
 
-            ImageF image = ImageF.RandomPixelImage(1000, 1000, 100);
+            ImageF image = ImageF.RandomPixelImage(500, 500, 1);
             Picture = new ImageFWrapper(image);
 
             theImage.Source = Picture.Bitmap;
             viewBox.Width = theImage.Width;
             viewBox.Height = theImage.Height;
 
-            Psf = PSF.SymmetricGaussian(5.5);
+            Psf = PSF.SymmetricGaussian(8.5);
         }
 
         ImageFWrapper Picture
