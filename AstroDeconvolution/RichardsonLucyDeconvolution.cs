@@ -61,6 +61,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using System.IO;
 
 namespace AstroDeconvolution
 {
@@ -91,6 +92,7 @@ namespace AstroDeconvolution
      */
     public class RichardsonLucyDeconvolution
     {
+
         /**
          * @brief
          * Constructor
@@ -144,7 +146,9 @@ namespace AstroDeconvolution
         {
             ImageF In = Psf.Convolute(Sn);
             ImageF Cn = Psf.ConvoluteTranspose(Image / In);
+
             Sn *= Cn;
+
             return Sn;
         }
 

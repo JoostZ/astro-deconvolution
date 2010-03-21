@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
-
+using System.IO;
 
 using System.Globalization;
 using Microsoft.Win32;
@@ -41,14 +41,16 @@ namespace SimpleDeconvolution
             cb1.Executed += new ExecutedRoutedEventHandler(cb1_Executed);
             this.CommandBindings.Add(cb1);
 
-            ImageF image = ImageF.RandomPixelImage(500, 500, 1);
+            ImageF image = ImageF.RandomPixelImage(10, 10, 1);
+
+            Psf = PSF.SymmetricGaussian(0.5);
             Picture = new ImageFWrapper(image);
 
             theImage.Source = Picture.Bitmap;
             viewBox.Width = theImage.Width;
             viewBox.Height = theImage.Height;
 
-            Psf = PSF.SymmetricGaussian(8.5);
+            
         }
 
         ImageFWrapper Picture
@@ -158,9 +160,10 @@ namespace SimpleDeconvolution
 
         private void btnDeconvolve_Click(object sender, RoutedEventArgs e)
         {
-            ImageF img = Psf.Convolute(Picture.Image);
+            //ImageF img = Psf.Convolute(Picture.Image);
+            //Picture.Image = img;
 
-            PageDeconvolve page = new PageDeconvolve(new ImageFWrapper(img), Psf);
+            PageDeconvolve page = new PageDeconvolve(Picture, Psf);
             this.NavigationService.Navigate(page);
         }
 

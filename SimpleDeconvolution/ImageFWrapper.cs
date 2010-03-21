@@ -19,10 +19,18 @@ namespace SimpleDeconvolution
             Image = image;
         }
 
+        ImageF image;
         internal ImageF Image
         {
-            get;
-            set;
+            get
+            {
+                return image;
+            }
+            set
+            {
+                image = value;
+                bitmap = null;
+            }
         }
 
         private BitmapSource bitmap;

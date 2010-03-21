@@ -471,13 +471,13 @@ namespace AstroDeconvolution
                 }
             }
 
-            //for (int x = 0; x < width; x++)
-            //{
-            //    for (int y = 0; y < height; y++)
-            //    {
-            //        psf[x, y] /= integral;
-            //    }
-            //}
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    psf[x, y] /= integral;
+                }
+            }
 
             return new PSF(psf, origin);
         }
@@ -547,6 +547,23 @@ namespace AstroDeconvolution
             get;
             set;
         }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder("PSF:\n");
+            for (int y = Ymin; y <= Ymax; y++)
+            {
+                for (int x = Xmin; x <= Xmax; x++)
+                {
+                    builder.AppendFormat("{0:F4}  ", this[x, y]);
+                }
+                builder.Append("\n");
+            }
+
+            builder.Append("\n");
+            return builder.ToString();
+        }
+
         #region IConvolutable Members
 
         public ImageF Convolute(ImageF image)
