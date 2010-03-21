@@ -53,7 +53,7 @@ namespace SimpleDeconvolution
                 baseImage = value;
                 theBase.Source = BaseImage.Bitmap;
 
-                ResultImage = baseImage; // new ImageFWrapper(ImageF.ConstantImage(baseImage.Image.Width, baseImage.Image.Height, 0.5));
+                ResultImage = new ImageFWrapper(ImageF.ConstantImage(baseImage.Image.Width, baseImage.Image.Height, 0.5));
                 theResult.Source = ResultImage.Bitmap;
             }
         }

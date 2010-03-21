@@ -172,15 +172,14 @@ namespace AstroDeconvolution
                 }
             }
 
-            result.imageData[width / 2, height / 2] = 1.0;
-            //Random rand = new Random();
-            //for (int i = 0; i < nPoints; i++)
-            //{
-            //    int x = rand.Next(width);
-            //    int y = rand.Next(height);
+            Random rand = new Random();
+            for (int i = 0; i < nPoints; i++)
+            {
+                int x = rand.Next(width);
+                int y = rand.Next(height);
 
-            //    result.imageData[x, y] = 1.0;
-            //}
+                result.imageData[x, y] = 1.0;
+            }
             return result;
         }
         #endregion
@@ -331,6 +330,21 @@ namespace AstroDeconvolution
             {
                 return imageData;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder("ImageF:\n");
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    builder.AppendFormat("{0:F4}  ", this[x, y]);
+                }
+                builder.Append("\n");
+            }
+            builder.Append("\n");
+            return builder.ToString();
         }
             
         /**
