@@ -29,6 +29,18 @@ namespace SimpleDeconvolution
 
         }
 
+        public PageDeconvolve(ImageFWrapper image, PSF psf) : this()
+        {
+            BaseImage = image;
+            Rc = new RichardsonLucyDeconvolution(image.Image, psf);
+            ResultImage = new ImageFWrapper(Rc.Sn);
+        }
+
+        private RichardsonLucyDeconvolution Rc
+        {
+            get;
+            set;
+        }
         private ImageFWrapper baseImage;
         public ImageFWrapper BaseImage
         {
@@ -50,6 +62,12 @@ namespace SimpleDeconvolution
         {
             get;
             set;
+        }
+
+        private void btnIterate_Click(object sender, RoutedEventArgs e)
+        {
+            ResultImage.Image = Rc.Iterate();
+            theResult.Source = ResultImage.Bitmap;
         }
     }
 }

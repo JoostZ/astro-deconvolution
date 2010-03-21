@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Exocortex.DSP;
+using FftwConvolver;
 
 namespace AstroDeconvolution
 {
@@ -291,6 +291,25 @@ namespace AstroDeconvolution
             }
         }
 
+        PSF(double[,] data, Point origin)
+        {
+            iData = new List<List<double>>();
+            for (int y = 0; y < data.GetLength(1); y++)
+            {
+                List<double> row = new List<double>();
+                for (int x = 0; x < data.GetLength(0); x++)
+                {
+                    row.Add(data[x, y]);
+                }
+                iData.Add(row);
+            }
+            _xmin = -origin.X;
+            _xmax = data.GetLength(0) + Xmin - 1;
+            _ymin = -origin.Y;
+            _ymax = data.GetLength(1) + Ymin - 1;
+        }
+
+
         PSF()
         {
             List<double> row = new List<double>();
@@ -426,6 +445,44 @@ namespace AstroDeconvolution
             return thePsf;
         }
 
+        public static PSF SymmetricGaussian(double sigma)
+        {
+            double sigma2 = sigma * sigma;
+
+            Point origin = new Point();
+            origin.X = (int)(3 * sigma) + 1;
+            origin.Y = origin.X;
+            int width = 2 * origin.X + 1;
+            int height = width;
+            double[,] psf = new double[width, height];
+
+
+            double integral = 0.0;
+            for (int x = 0; x < width; x++)
+            {
+                int x1 = x - origin.X;
+                for (int y = 0; y < height; y++)
+                {
+                    int y1 = y - origin.Y;
+                    double radius = (double)(x1 * x1 + y1 * y1);
+                    double value = Math.Exp(-0.5 * radius / sigma2);
+                    integral += value;
+                    psf[x, y] = value;
+                }
+            }
+
+            //for (int x = 0; x < width; x++)
+            //{
+            //    for (int y = 0; y < height; y++)
+            //    {
+            //        psf[x, y] /= integral;
+            //    }
+            //}
+
+            return new PSF(psf, origin);
+        }
+
+        #region OutConversion
         public Color[,] ToRawImage()
         {
             // Find the maximum
@@ -460,190 +517,67 @@ namespace AstroDeconvolution
             return result;
         }
 
+        public KernelData ToKernelData()
+        {
+            var data = new double[Xmin + Xmax + 1, Ymin + Ymax + 1];
+            for (int y = Ymin; y <= Ymax; y++)
+            {
+                List<double> row = iData[y - Ymin];
+                for (int x = Xmin; x <= Xmax; x++)
+                {
+                    data[x - Xmin, y - Ymin] = row[x - Xmin];
+                }
+            }
+
+            return new KernelData(data, new Point(-Xmin, -Ymin));
+ 
+        }
+
+        #endregion
+
         private Size FftSize
         {
             get;
             set;
         }
 
-        Complex[] FftPsf
+
+        FftwConvolver.FftwConvolver Convolver
         {
             get;
             set;
-        }
-
-        Complex[] GetPsfFft(ImageF image)
-        {
-            double[,] grid = new double[FftSize.Width, FftSize.Height];
-            Complex[] data = new Complex[FftSize.Width * FftSize.Height];
-
-            for (int y = Ymin; y <= Ymax; y++)
-            {
-                int yOffset = y < 0 ? FftSize.Height : 0;
-                for (int x = Xmin; x <= Xmax; x++)
-                {
-                    int xOffset = x < 0 ? FftSize.Width : 0;
-                    grid[xOffset + x, yOffset + y] = this[x, y];
-                }
-            }
-
-            int idx = 0;
-            for (int y = 0; y < FftSize.Height; y++)
-            {
-                for (int x = 0; x < FftSize.Width; x++)
-                {
-                    data[idx++].Re = (((x + y) & 0x1) != 0) ? -grid[x, y] : grid[x, y];
-                }
-            }
-
-            Fourier.FFT2(data, FftSize.Width, FftSize.Height, FourierDirection.Forward);
-
-
-            double scale = 1f / (float)Math.Sqrt(FftSize.Width * FftSize.Height);
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] *= scale;
-            }
-            return data;
-        }
-
-        Complex[] FftPsfTranspose
-        {
-            get;
-            set;
-        }
-
-        Complex[] GetPsfTransposeFft(ImageF image)
-        {
-            double[,] grid = new double[FftSize.Width, FftSize.Height];
-            Complex[] data = new Complex[FftSize.Width * FftSize.Height];
-
-            for (int y = Ymin; y <= Ymax; y++)
-            {
-                int yOffset = y < 0 ? FftSize.Width : 0;
-                for (int x = Xmin; x <= Xmax; x++)
-                {
-                    int xOffset = x < 0 ? FftSize.Height : 0;
-                    grid[yOffset + y, xOffset + x] = this[x, y];
-                }
-            }
-
-            int idx = 0;
-            for (int y = 0; y < FftSize.Height; y++)
-            {
-                for (int x = 0; x < FftSize.Width; x++)
-                {
-                    data[idx++].Re = (((x + y) & 0x1) != 0) ? -grid[x, y] : grid[x, y];
-                }
-            }
-
-            Fourier.FFT2(data, FftSize.Width, FftSize.Height, FourierDirection.Forward);
-
-
-            double scale = 1f / (float)Math.Sqrt(FftSize.Width * FftSize.Height);
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] *= scale;
-            }
-            return data;
-        }
-
-        Complex[] FftImage(ImageF image)
-        {
-            Complex[] data = new Complex[FftSize.Width * FftSize.Height];
-
-            for (int y = 0; y < image.Height; y++)
-            {
-                int rowOffset = y * FftSize.Width;
-                for (int x = 0; x < image.Width; x++)
-                {
-                    data[rowOffset + x].Re = image[x, y];
-                    if (((x + 1) & 0x1) != 0)
-                    {
-                        data[rowOffset + x] *= 1;
-                    }
-                }
-            }
-
-            Fourier.FFT2(data, FftSize.Width, FftSize.Height, FourierDirection.Forward);
-
-            double scale = 1f / (float)Math.Sqrt(FftSize.Width * FftSize.Height);
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] *= scale;
-            }
-
-            return data;
         }
         #region IConvolutable Members
 
         public ImageF Convolute(ImageF image)
         {
-            Size oldSize = FftSize;
-            FftSize = new Size(
-                (int)Math.Pow(2, Math.Ceiling(Math.Log(image.Width, 2))),
-                (int)Math.Pow(2, Math.Ceiling(Math.Log(image.Height, 2))));
+            CheckSize(image);
 
-            if (FftPsf == null || FftSize != oldSize)
-            {
-                FftPsf = GetPsfFft(image);
-            }
-
-            return DoConvolute(image, FftPsf);
+            return ImageF.FromArray(Convolver.Convolve(image.ToRawData));
         }
 
-        private ImageF DoConvolute(ImageF image, Complex[] psf)
+        private void CheckSize(ImageF image)
         {
-            Complex[] imageFft = FftImage(image);
-
-            Complex[] data = new Complex[FftSize.Width * FftSize.Height];
-
-            for (int idx = 0; idx < data.Length; idx++)
+            if (Convolver == null || FftSize.Width != image.Width || FftSize.Height != image.Height)
             {
-                data[idx] = imageFft[idx] * psf[idx];
-            }
-
-            Fourier.FFT2(data, FftSize.Width, FftSize.Height, FourierDirection.Backward);
-
-            Double[,] result = new Double[image.Width, image.Height];
-
-            double scale = 1f / (float)Math.Sqrt(FftSize.Width * FftSize.Height);
-            int offset = 0;
-
-            for (int y = 0; y < image.Height; y++)
-            {
-                offset = y * FftSize.Width;
-                for (int x = 0; x < image.Width; x++)
+                FftSize = new Size(image.Width, image.Height);
+                double[,] imgData = new double[FftSize.Width, FftSize.Height];
+                for (int x = 0; x < FftSize.Width; x++)
                 {
-                    if (((x + y) & 0x1) != 0)
+                    for (int y = 0; y < FftSize.Height; y++)
                     {
-                        result[x, y] = -1 * scale * data[offset + x].Re;
+                        imgData[x, y] = this[x + Xmin, y + Ymin];
                     }
-                    else
-                    {
-                        result[x, y] = scale * data[offset + x].Re;
-                    }
-                    offset++;
                 }
+                Convolver = new FftwConvolver.FftwConvolver(FftSize, imgData, new Point(-Xmin, -Ymin));
             }
-
-            return ImageF.FromArray(result);
         }
 
 
         public ImageF ConvoluteTranspose(ImageF image)
         {
-            Size oldSize = FftSize;
-            FftSize = new Size(
-                (int)Math.Pow(2, Math.Ceiling(Math.Log(image.Width, 2))),
-                (int)Math.Pow(2, Math.Ceiling(Math.Log(image.Height, 2))));
-
-            if (FftPsfTranspose == null || FftSize != oldSize)
-            {
-                FftPsfTranspose = GetPsfTransposeFft(image);
-            }
-
-            return DoConvolute(image, FftPsfTranspose);
+            CheckSize(image);
+            return ImageF.FromArray(Convolver.Convolve(image.ToRawData));
         }
 
         #endregion

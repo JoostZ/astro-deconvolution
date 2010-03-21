@@ -40,6 +40,15 @@ namespace SimpleDeconvolution
             CommandBinding cb1 = new CommandBinding(NavigationCommands.Zoom);
             cb1.Executed += new ExecutedRoutedEventHandler(cb1_Executed);
             this.CommandBindings.Add(cb1);
+
+            ImageF image = ImageF.RandomPixelImage(1000, 1000, 100);
+            Picture = new ImageFWrapper(image);
+
+            theImage.Source = Picture.Bitmap;
+            viewBox.Width = theImage.Width;
+            viewBox.Height = theImage.Height;
+
+            Psf = PSF.SymmetricGaussian(5.5);
         }
 
         ImageFWrapper Picture
@@ -48,10 +57,17 @@ namespace SimpleDeconvolution
             set;
         }
 
+        PSF _psf;
         PSF Psf
         {
-            get;
-            set;
+            get
+            {
+                return _psf;
+            }
+            set
+            {
+                _psf = value;
+            }
         }
 
         void cb1_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -142,9 +158,21 @@ namespace SimpleDeconvolution
 
         private void btnDeconvolve_Click(object sender, RoutedEventArgs e)
         {
-            PageDeconvolve page = new PageDeconvolve();
-            page.BaseImage = Picture;
+            ImageF img = Psf.Convolute(Picture.Image);
+
+            PageDeconvolve page = new PageDeconvolve(new ImageFWrapper(img), Psf);
             this.NavigationService.Navigate(page);
+        }
+
+        private void slider1_TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+
+        }
+
+        private void DockPanel_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            imgPsfPreview.Source = ToBitmap(Psf.ToRawImage());
         }
 
     }
