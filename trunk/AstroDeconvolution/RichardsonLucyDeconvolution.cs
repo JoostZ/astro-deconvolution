@@ -107,6 +107,7 @@ namespace AstroDeconvolution
         {
             Image = image;
             Psf = psf;
+            Sn = ImageF.ConstantImage(image.Width, image.Height, 0.5);
         }
 
         private ImageF Image
@@ -142,7 +143,7 @@ namespace AstroDeconvolution
         public ImageF Iterate()
         {
             ImageF In = Psf.Convolute(Sn);
-            ImageF Cn = Psf.Convolute(Image / In);
+            ImageF Cn = Psf.ConvoluteTranspose(Image / In);
             Sn *= Cn;
             return Sn;
         }

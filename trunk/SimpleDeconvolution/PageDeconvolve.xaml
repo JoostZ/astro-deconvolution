@@ -5,7 +5,7 @@
     <DockPanel>
 
         <StackPanel Height="Auto" Name="stackPanel1" DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
-            <Button Height="23" Name="btnIterate" Width="75" Margin="5">Iterate</Button>
+            <Button Height="23" Name="btnIterate" Width="75" Margin="5" Click="btnIterate_Click">Iterate</Button>
             <TextBlock Height="21" Name="txtIteration" Width="37" />
         </StackPanel>
         <Grid>

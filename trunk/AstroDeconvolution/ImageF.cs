@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 
+
 namespace AstroDeconvolution
 {
     /**
@@ -159,6 +160,28 @@ namespace AstroDeconvolution
             }
             return result;
         }
+
+        public static ImageF RandomPixelImage(int width, int height, int nPoints)
+        {
+            ImageF result = new ImageF(width, height);
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    result.imageData[x, y] = 0.0;
+                }
+            }
+
+            Random rand = new Random();
+            for (int i = 0; i < nPoints; i++)
+            {
+                int x = rand.Next(width);
+                int y = rand.Next(height);
+
+                result.imageData[x, y] = 1.0;
+            }
+            return result;
+        }
         #endregion
 
         #region Arithmetic Operators
@@ -289,12 +312,27 @@ namespace AstroDeconvolution
                 {
                     double value = this.imageData[x, y];
                     int color = (int)(value * 255);
+                    if (color < 0) {
+                        color = 0;
+                    }
+                    if (color > 255) {
+                        color = 255;
+                    }
                     result[x, y] = Color.FromArgb(color, color, color);
                 }
             }
 
             return result;
         }
+
+        public double[,] ToRawData
+        {
+            get
+            {
+                return imageData;
+            }
+        }
+            
         /**
          * @brief
          * Convolute the %PSF into this ImageF
