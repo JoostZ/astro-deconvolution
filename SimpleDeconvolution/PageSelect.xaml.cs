@@ -178,5 +178,14 @@ namespace SimpleDeconvolution
             imgPsfPreview.Source = ToBitmap(Psf.ToRawImage());
         }
 
+        private void btnCreate_Click(object sender, RoutedEventArgs e)
+        {
+            CreateImage dlg = new CreateImage();
+
+            if (dlg.ShowDialog() == true)
+            {
+            }
+        }
+
     }
 }
