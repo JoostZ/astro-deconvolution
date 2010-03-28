@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="CompoundPSF.cs" />
     <Compile Include="CovarianceBuilder.cs" />
+    <Compile Include="Gaussian.cs" />
     <Compile Include="HotellingTransform.cs" />
     <Compile Include="IConvolutable.cs" />
     <Compile Include="ImageF.cs" />

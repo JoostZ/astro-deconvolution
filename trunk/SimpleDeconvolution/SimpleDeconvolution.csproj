@@ -100,6 +100,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="CreateImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PageDeconvolve.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,6 +126,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateImage.xaml.cs">
+      <DependentUpon>CreateImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ImageFWrapper.cs" />
     <Compile Include="PageDeconvolve.xaml.cs">
       <DependentUpon>PageDeconvolve.xaml</DependentUpon>

@@ -182,6 +182,29 @@ namespace AstroDeconvolution
             }
             return result;
         }
+
+        public static ImageF Starfield(int width, int height, int nStars, double noise)
+        {
+            ImageF result = new ImageF(width, height);
+
+            Random rand = new Random();
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    result.imageData[x, y] = rand.NextDouble() * noise;
+                }
+            }
+
+            for (int i = 0; i < nStars; i++)
+            {
+                int x = rand.Next(width);
+                int y = rand.Next(height);
+
+                result.imageData[x, y] = 1.0;
+            }
+            return result;
+        }
         #endregion
 
         #region Arithmetic Operators
@@ -345,20 +368,6 @@ namespace AstroDeconvolution
             }
             builder.Append("\n");
             return builder.ToString();
-        }
-            
-        /**
-         * @brief
-         * Convolute the %PSF into this ImageF
-         * 
-         * @param psf The %PSF to convolve
-         * 
-         * @return The result of the convolution
-         */
-        public ImageF Convolute(PSF psf)
-        {
-            // TODO: Implement
-            return null;
         }
     }
 }

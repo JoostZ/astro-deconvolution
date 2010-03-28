@@ -18,7 +18,7 @@
         <StackPanel Height="Auto" Name="stackPanel1" DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
             <Button Height="23" Name="btnLoad" Width="75" Margin="5" Command="ApplicationCommands.Open">Load Image</Button>
             <Button Height="23" Name="btnIterate" Width="75" Margin="5">Iterate</Button>
-            <Image Height="23" Name="image1"/>
+            <Button Height="23" Name="btnCreate" Width="75" Margin="5" Click="btnCreate_Click">Create</Button>
         </StackPanel>
         <StackPanel  Name="stackPanel2" Width="100" DockPanel.Dock="Right">
             <Image Height="auto" Name="imgPsfPreview" Stretch="Fill" Width="100"  />
