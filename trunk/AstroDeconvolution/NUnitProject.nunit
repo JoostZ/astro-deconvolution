@@ -1,0 +1,15 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="bin\Debug\AstroDeconvolution.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto">
+    <assembly path="bin\Release\AstroDeconvolution.dll" />
+  </Config>
+  <Config name="Debug|x86" binpathtype="Auto">
+    <assembly path="bin\x86\Debug\AstroDeconvolution.dll" />
+  </Config>
+  <Config name="Release|x86" binpathtype="Auto">
+    <assembly path="bin\x86\Release\AstroDeconvolution.dll" />
+  </Config>
+</NUnitProject>

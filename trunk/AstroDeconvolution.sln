@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstroDeconvolution", "Astro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDeconvolution", "SimpleDeconvolution\SimpleDeconvolution.csproj", "{5C08706F-2624-4997-BF07-8106E7594286}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitDebug", "NUnitDebug\NUnitDebug.csproj", "{ADCD6F53-92C3-4E1E-BC96-7AB9AFB11DB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{5C08706F-2624-4997-BF07-8106E7594286}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C08706F-2624-4997-BF07-8106E7594286}.Release|x86.ActiveCfg = Release|x86
 		{5C08706F-2624-4997-BF07-8106E7594286}.Release|x86.Build.0 = Release|x86
+		{ADCD6F53-92C3-4E1E-BC96-7AB9AFB11DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADCD6F53-92C3-4E1E-BC96-7AB9AFB11DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADCD6F53-92C3-4E1E-BC96-7AB9AFB11DB5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ADCD6F53-92C3-4E1E-BC96-7AB9AFB11DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADCD6F53-92C3-4E1E-BC96-7AB9AFB11DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADCD6F53-92C3-4E1E-BC96-7AB9AFB11DB5}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
