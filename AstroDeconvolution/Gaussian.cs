@@ -271,7 +271,12 @@ namespace AstroDeconvolution
             // dF / dX0 = (d xPrime / d X0) / SigmaX
             // xPrime = (cos theta (x - x0) - sin theta * (y - y0)
             // d xPrime / dx0 = - cos theta
-                return  this[x, y] * (CosTheta / SigmaX2 + SinTheta / SigmaY2);
+            double dX = x - X0;
+            double dY = y - Y0;
+
+            double xPrime = dX * CosTheta - dY * SinTheta;
+            double yPrime = dX * SinTheta + dY * CosTheta;
+                return  this[x, y] * (xPrime * CosTheta / SigmaX2 + yPrime * SinTheta / SigmaY2);
         }
 
         /**
@@ -289,7 +294,13 @@ namespace AstroDeconvolution
             // dF / dX0 = (d yPrime / d Y0) / SigmaY
             // yPrime = (cos theta (x - x0) - sin theta * (y - y0)
             // d yPrime / dy0 =  sin theta
-            return this[x, y] * (SinTheta / SigmaX2 - CosTheta / SigmaY2);
+
+            double dX = x - X0;
+            double dY = y - Y0;
+
+            double xPrime = dX * CosTheta - dY * SinTheta;
+            double yPrime = dX * SinTheta + dY * CosTheta;
+            return this[x, y] * (- xPrime * SinTheta / SigmaX2 + yPrime * CosTheta / SigmaY2);
         }
 
         /**
@@ -303,7 +314,11 @@ namespace AstroDeconvolution
          */
         public double PartialDerivativeSigmaX(double x, double y)
         {
-            return 0;
+            double dX = x - X0;
+            double dY = y - Y0;
+
+            double xPrime = dX * CosTheta - dY * SinTheta;
+            return this[x, y] * (xPrime * xPrime) / (SigmaX2 * SigmaX);
         }
 
         /**
@@ -317,7 +332,11 @@ namespace AstroDeconvolution
          */
         public double PartialDerivativeSigmaY(double x, double y)
         {
-            return 0;
+            double dX = x - X0;
+            double dY = y - Y0;
+
+            double yPrime = dX * SinTheta + dY * CosTheta;
+            return this[x, y] * (yPrime * yPrime) / (SigmaY2 * SigmaY);
         }
 
         /**
@@ -331,7 +350,17 @@ namespace AstroDeconvolution
          */
         public double PartialDerivativeTheta(double x, double y)
         {
-            return 0;
+
+            double dX = x - X0;
+            double dY = y - Y0;
+
+            double xPrime = dX * CosTheta - dY * SinTheta;
+            double yPrime = dX * SinTheta + dY * CosTheta;
+
+            double dxPrime = -dX * SinTheta - dY * CosTheta;
+            double dyPrime = dX * CosTheta - dY * SinTheta;
+
+            return - this[x, y] * ((xPrime * dxPrime) / SigmaX2 + (yPrime * dyPrime) / SigmaY2);
         }
 
         #endregion
@@ -450,23 +479,108 @@ namespace AstroDeconvolution
         {
             double x0 = 0.0;
             double y0 = 0.0;
-            double sigmaX = 1.0;
-            double sigmaY = 1.0;
+            double sigmaX = 1.5;
+            double sigmaX2 = sigmaX * sigmaX;
+            double sigmaY = 0.75;
+            double sigmaY2 = sigmaY * sigmaY;
             double theta = 0.0;
             double scale = 1.0;
 
             Gaussian theGaussian = new Gaussian(x0, y0, sigmaX, sigmaY, theta, scale);
 
-            for (double x = x0; x < 5 * sigmaX; x += 0.2)
+            for (x0 = 0.0; x0 < 300; x0 += 100)
             {
-                double expectedValue = scale * Math.Exp(-0.5 * (x - x0) * (x - x0) / (sigmaX * sigmaX));
-                Assert.That(theGaussian[x, 0], Is.EqualTo(expectedValue).Within(0.00001), "Value [" + x + ", 0]");
+                theGaussian.X0 = x0;
+                for (y0 = 0; y0 < 300; y0 += 100)
+                {
+                    theGaussian.Y0 = y0;
+
+                    for (scale = 0.5; scale < 2.0; scale += 0.5)
+                    {
+                        theGaussian.Scale = scale;
+                        for (theta = 0.0; theta < 180.0; theta += 30.0)
+                        {
+                            theGaussian.Theta = theta;
+                            double cosTheta = Math.Cos(Math.PI * theta / 180.0);
+                            double sinTheta = Math.Sin(Math.PI * theta / 180.0);
+
+                            for (double x = 0.5; x < 5 * sigmaX; x += 0.5)
+                            {
+                                for (double y = 0.5; y < 5 * sigmaY; y += 0.5)
+                                {
+                                    double xPrime = cosTheta * x - sinTheta * y;
+                                    double yPrime = sinTheta * x + cosTheta * y;
+                                    double expectedValue = scale * Math.Exp(-0.5 * (xPrime * xPrime / sigmaX2 + yPrime * yPrime / sigmaY2));
+                                    double gauss = theGaussian[x0 + x, y0 + y];
+                                    Assert.That(theGaussian[x0 + x, y0 + y], Is.EqualTo(expectedValue).Within(0.00001),
+                                        "Value [" + x + ", " + y + "]"); ;
+                                    Assert.That(theGaussian[x0 - x, y0 - y], Is.EqualTo(expectedValue).Within(0.00001),
+                                        "Value [" + x + ", " + y + "]");
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            for (double y = y0; y < 5 * sigmaY; y += 0.2)
-            {
-                double expectedValue = scale * Math.Exp(-0.5 * (y - y0) * (y - y0) / (sigmaY * sigmaY));
-                Assert.That(theGaussian[0, y], Is.EqualTo(expectedValue).Within(0.00001), "Value [" + 0 + ", y]");
-            }
+        }
+
+        [Test]
+        public void TestDerivatives()
+        {
+            double x0 = 0.0;
+            double y0 = 0.0;
+            double sigmaX = 1.5;
+            double sigmaX2 = sigmaX * sigmaX;
+            double sigmaY = 0.75;
+            double sigmaY2 = sigmaY * sigmaY;
+            double theta = 0.0;
+            double scale = 1.0;
+
+            double delta = 0.00000001;
+
+            double value;
+            double value2;
+            double expectedValue;
+
+            Gaussian theGaussian = new Gaussian(x0, y0, sigmaX, sigmaY, theta, scale);
+
+            // Derivative 
+            value = theGaussian[0.5, 0.5];
+            theGaussian.Scale += delta;
+            value2 = theGaussian[0.5, 0.5];
+            expectedValue = (value2 - value) / delta;
+            theGaussian.Scale = scale;
+            Assert.That(theGaussian.PartialDerivativeScale(0.5, 0.5), Is.EqualTo(expectedValue).Within(0.00001), "N");
+
+            theGaussian.X0 += delta;
+            value2 = theGaussian[0.5, 0.5];
+            expectedValue = (value2 - value) / delta;
+            theGaussian.X0 = x0;
+            Assert.That(theGaussian.PartialDerivativeX0(0.5, 0.5), Is.EqualTo(expectedValue).Within(0.00001), "X0");
+
+            theGaussian.Y0 += delta;
+            value2 = theGaussian[0.5, 0.5];
+            expectedValue = (value2 - value) / delta;
+            theGaussian.Y0 = y0;
+            Assert.That(theGaussian.PartialDerivativeY0(0.5, 0.5), Is.EqualTo(expectedValue).Within(0.00001), "Y0");
+
+            theGaussian.SigmaX += delta;
+            value2 = theGaussian[0.5, 0.5];
+            expectedValue = (value2 - value) / delta;
+            theGaussian.SigmaX = sigmaX;
+            Assert.That(theGaussian.PartialDerivativeSigmaX(0.5, 0.5), Is.EqualTo(expectedValue).Within(0.00001), "SigmaX");
+
+            theGaussian.SigmaY += delta;
+            value2 = theGaussian[0.5, 0.5];
+            expectedValue = (value2 - value) / delta;
+            theGaussian.SigmaY = sigmaY;
+            Assert.That(theGaussian.PartialDerivativeSigmaY(0.5, 0.5), Is.EqualTo(expectedValue).Within(0.00001), "SigmaY");
+
+            theGaussian.Theta += delta;
+            value2 = theGaussian[0.5, 0.5];
+            expectedValue = (value2 - value) / (delta *  Math.PI / 180.0);
+            theGaussian.Theta = theta;
+            Assert.That(theGaussian.PartialDerivativeTheta(0.5, 0.5), Is.EqualTo(expectedValue).Within(0.00001), "Theta");
         }
     }
 #endif
