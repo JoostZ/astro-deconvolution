@@ -1,0 +1,1 @@
+This is _image processing_ software to do Spatially-Variant deconvolution of (astro) photos
